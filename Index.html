@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ORBIX Token (ORX)</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-900 text-white font-sans p-6">
+  <div class="max-w-xl mx-auto text-center">
+    <h1 class="text-3xl font-bold mb-4">ORBIX Token</h1>
+    <p class="text-lg mb-2">Simbol: <span class="font-mono">ORX</span></p>
+    <p class="text-lg mb-2">Total Supply: <span class="font-mono">1,000,000 ORX</span></p>
+    <p class="text-sm mt-4 text-gray-300">Alamat Kontrak:</p>
+    <p id="contractAddress" class="text-sm bg-gray-800 p-2 rounded font-mono break-all">
+      0x1234567890abcdef1234567890abcdef12345678 <!-- Ganti dengan alamat ORX kamu -->
+    </p>
+
+    <button onclick="copyAddress()" class="mt-4 bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded text-white">
+      📋 Salin Alamat Kontrak
+    </button>
+
+    <button onclick="addToken()" class="mt-2 bg-yellow-600 hover:bg-yellow-700 px-4 py-2 rounded text-white block mx-auto">
+      ➕ Tambahkan ke MetaMask
+    </button>
+  </div>
+
+  <script>
+    const contractAddress = "0x1234567890abcdef1234567890abcdef12345678"; // Ganti ini
+
+    function copyAddress() {
+      navigator.clipboard.writeText(contractAddress).then(() => {
+        alert("Alamat kontrak disalin!");
+      });
+    }
+
+    async function addToken() {
+      try {
+        const wasAdded = await window.ethereum.request({
+          method: 'wallet_watchAsset',
+          params: {
+            type: 'ERC20',
+            options: {
+              address: contractAddress,
+              symbol: 'ORX',
+              decimals: 18,
+              image: '', // Isi jika punya logo token
+            },
+          },
+        });
+
+        if (wasAdded) {
+          alert("Token ORX ditambahkan ke MetaMask!");
+        } else {
+          alert("Gagal menambahkan token.");
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  </script>
+</body>
+</html>
